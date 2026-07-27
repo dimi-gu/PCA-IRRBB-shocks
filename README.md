@@ -6,7 +6,7 @@ The notebook applies PCA to historical changes in the ECB euro-area AAA zero-cou
 
 ## Input File
 
-The required yield-curve dataset is already provided in the repository:
+The required yield-curve dataset is already provided in the repository [`Download data`](./Download%20data):
 
 ```text
 ecb_aaa_spot_yield_curve_2026-07-24.csv
@@ -63,6 +63,7 @@ The PCA is configured to retain three components:
 ```python
 N_COMPONENTS = 3
 ```
+
 The number of Principal Components is adjustable by the user.
 
 ## Usage
