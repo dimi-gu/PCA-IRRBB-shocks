@@ -88,7 +88,7 @@ TAU2
 
 The Svensson zero-coupon spot rate is:
 
-$\
+$$\
 \begin{aligned}
 z(T) =\;& \beta_0
 +\beta_1\left(\frac{1-e^{-T/\tau_1}}{T/\tau_1}\right) \\
@@ -101,7 +101,7 @@ z(T) =\;& \beta_0
 -e^{-T/\tau_2}
 \right)
 \end{aligned}
-\$
+\$$
 
 where:
 
