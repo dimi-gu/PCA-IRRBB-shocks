@@ -85,40 +85,6 @@ BETA3
 TAU1
 TAU2
 ```
-
-The Svensson zero-coupon spot rate is:
-
-$$\
-\begin{aligned}
-z(T) =\;& \beta_0
-+\beta_1\left(\frac{1-e^{-T/\tau_1}}{T/\tau_1}\right) \\
-&+\beta_2\left(
-\frac{1-e^{-T/\tau_1}}{T/\tau_1}
--e^{-T/\tau_1}
-\right) \\
-&+\beta_3\left(
-\frac{1-e^{-T/\tau_2}}{T/\tau_2}
--e^{-T/\tau_2}
-\right)
-\end{aligned}
-\$$
-
-where:
-
-- \(T\) is time to maturity in years;
-- \(\beta_0,\ldots,\beta_3\) control the level, slope, and curvature;
-- \(\tau_1,\tau_2\) control the decay structure.
-
-The notebook evaluates the function at:
-
-\[
-T_{1M}=\frac{1}{12}
-\]
-
-\[
-T_{2M}=\frac{2}{12}
-\]
-
 The daily ECB parameter series are retrieved through the same API and aligned by date before the implied rates are calculated.
 
 Technical notes on the ECB curve methodology:
@@ -126,28 +92,6 @@ Technical notes on the ECB curve methodology:
 ```text
 https://www.ecb.europa.eu/stats/financial_markets_and_interest_rates/euro_area_yield_curves/shared/pdf/technical_notes.pdf
 ```
-
----
-
-## Validation Check
-
-To confirm that the Svensson function has been implemented consistently, the notebook reconstructs the three-month spot rate using:
-
-\[
-T_{3M}=\frac{3}{12}
-\]
-
-It then compares the reconstructed value with the officially published `SR_3M` series.
-
-The saved notebook run reported:
-
-```text
-Maximum absolute difference: 0.008528 percentage points
-Mean absolute difference:    0.000002 percentage points
-```
-
-This check is diagnostic rather than a formal validation of the ECB methodology.
-
 ---
 
 ## Configuration
@@ -165,6 +109,7 @@ FREQ_AREA_CCY_PROV = "B.U2.EUR.4F"
 
 OUTPUT_CSV = f"ecb_aaa_spot_yield_curve_{END_DATE}.csv"
 ```
+The output file is saved in the notebook's working directory.
 
 | Parameter | Description |
 |---|---|
@@ -174,28 +119,6 @@ OUTPUT_CSV = f"ecb_aaa_spot_yield_curve_{END_DATE}.csv"
 | `MODEL` | Svensson curve specification |
 | `FREQ_AREA_CCY_PROV` | Frequency, area, currency, and provider portion of the series key |
 | `OUTPUT_CSV` | Output filename |
-
-The filename date reflects the **request date**, not necessarily the latest observation available from the ECB.
-
----
-
-## Installation
-
-The notebook was saved with Python 3.13.5.
-
-Install the required third-party packages:
-
-```bash
-pip install requests pandas numpy jupyter
-```
-
-The remaining imports are part of the Python standard library.
-
-Start Jupyter with:
-
-```bash
-jupyter notebook
-```
 
 ---
 
@@ -223,7 +146,7 @@ This reduces the request rate sent to the ECB service.
 
 ## Output
 
-The exported CSV has one row per observation date and one column per maturity:
+The exported CSV has one row per observation date and 27 maturity columns:
 
 | Date | 1M | 2M | 3M | ... | 10Y | ... | 30Y |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -237,7 +160,6 @@ Example filename:
 ```text
 ecb_aaa_spot_yield_curve_2026-07-24.csv
 ```
-
 ---
 
 ## Saved Notebook Result
@@ -249,109 +171,7 @@ The saved execution produced:
 27 maturity columns
 Observation period: 2004-09-06 to 2026-07-22
 ```
-
 The exact number of rows and latest date will change as new ECB observations become available.
-
----
-
-## Error Handling
-
-Each maturity is downloaded independently.
-
-A series is skipped when:
-
-- the HTTP request fails;
-- the API returns a non-200 status;
-- the response is empty;
-- the CSV cannot be parsed;
-- the expected `TIME_PERIOD` or `OBS_VALUE` columns are absent.
-
-The workflow raises an error only when no published maturity can be retrieved.
-
-If one or more Svensson parameter series are unavailable, the notebook skips the implied 1M/2M calculation and retains the published maturities.
-
----
-
-## Important Implementation Notes
-
-### Remove the leading space before `fetch_parameter`
-
-In the uploaded notebook, the cell defining the parameter-download function begins with an accidental leading space:
-
-```python
- def fetch_parameter(...):
-```
-
-A clean execution may raise:
-
-```text
-IndentationError: unexpected indent
-```
-
-It should be:
-
-```python
-def fetch_parameter(...):
-```
-
-### Run the notebook in order
-
-Some stored execution counts are out of sequence. Restart the kernel and use **Run All** to confirm that the notebook is reproducible from a clean state.
-
-### The CSV is written twice
-
-The notebook first exports the 25 published maturities and later overwrites the same file after adding the implied 1M and 2M columns.
-
-This is harmless when the full notebook completes successfully. If execution stops before the second export, the existing CSV may contain only the published maturities.
-
-### Missing dates are not filled
-
-The output contains ECB observation dates only. It does not create rows for:
-
-- weekends;
-- public holidays;
-- unavailable business dates.
-
-### No automatic retry or exponential backoff
-
-Failed requests are skipped after one attempt. Temporary network errors, API throttling, or service outages can therefore produce an incomplete curve.
-
-For a production workflow, consider adding:
-
-- retries;
-- exponential backoff;
-- response logging;
-- a final expected-column check.
-
-### Date alignment
-
-The Svensson parameter dataframe is restricted to dates for which all six parameters are present:
-
-```python
-params = params.sort_index().dropna()
-```
-
-The calculated 1M and 2M series are aligned to the published curve by date. Dates lacking complete parameter data remain missing for those two tenors.
-
-### Compounding convention
-
-The selected ECB curve is based on continuously compounded spot rates. Do not treat the exported values as annually compounded par yields without applying the appropriate transformation.
-
----
-
-## Potential Extensions
-
-Possible extensions include:
-
-- downloading the all-ratings government curve;
-- retrieving instantaneous forward rates;
-- supporting alternative ECB curve models;
-- adding automatic retries and completeness checks;
-- exporting Svensson parameters with the curve;
-- converting continuously compounded rates to other conventions;
-- plotting historical term structures;
-- calculating daily, monthly, or annual yield changes;
-- using the curve as input for PCA or IRRBB scenario analysis.
 
 ---
 
