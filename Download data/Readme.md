@@ -6,8 +6,6 @@ The notebook retrieves daily spot rates across the yield curve, calculates the u
 
 **User needs to run this notebook only once**. The exported CSV is automatically saved in the working directory and is read by "[PCA-IRRBB-shocks](../Shocks%20IRRBB.ipynb)". If user needs an updated curve, he must re-run this notebook.
 
-[PCA-IRRBB-shocks](../Shocks%20IRRBB.ipynb)
-
 ---
 
 ## Main Features
