@@ -10,11 +10,8 @@ The notebook retrieves daily spot rates across the yield curve, calculates the u
 
 - Downloads the ECB euro-area AAA government bond spot curve
 - Uses daily business-date observations
-- Retrieves each maturity separately to avoid a single missing series stopping the workflow
 - Covers maturities from 3 months to 30 years
-- Derives 1-month and 2-month spot rates from the ECB Svensson parameters
-- Performs a 3-month model-reconstruction sanity check
-- Sorts all tenors in maturity order
+- Derives implied 1-month and 2-month spot rates from the ECB Svensson parameters
 - Exports one wide CSV file with dates as rows and maturities as columns
 - Automatically includes the current date in the output filename
 
@@ -70,9 +67,9 @@ It then adds two model-implied maturities:
 1M, 2M
 ```
 
-The final output therefore contains up to **27 maturity columns**.
+The final output therefore contains **27 maturity tenors**.
 
-The effective historical series begins on **6 September 2004**, even though the default API request starts on 1 January 2000. The ECB returns only observations available within the requested window.
+The effective historical series begins on **6 September 2004** up to the date of the script execution.
 
 ---
 
@@ -91,7 +88,7 @@ TAU2
 
 The Svensson zero-coupon spot rate is:
 
-\[
+$\
 \begin{aligned}
 z(T) =\;& \beta_0
 +\beta_1\left(\frac{1-e^{-T/\tau_1}}{T/\tau_1}\right) \\
@@ -104,7 +101,7 @@ z(T) =\;& \beta_0
 -e^{-T/\tau_2}
 \right)
 \end{aligned}
-\]
+\$
 
 where:
 
