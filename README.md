@@ -4,6 +4,8 @@ This repository contains a Python/Jupyter workflow for generating and analysing 
 
 The notebook applies PCA to historical changes in the ECB euro-area AAA zero-coupon yield curve, identifies extreme historical shocks, compares them with the six regulatory Supervisory Outlier Test (SOT) scenarios, and demonstrates how PCA components can be combined to simulate additional curve shapes.
 
+The repository also contains a short R script [`PCA.R`](/PCA.R)
+
 ## Input File
 
 The required yield-curve dataset is already provided in the repository [`Download data`](./Download%20data):
