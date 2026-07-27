@@ -2,9 +2,11 @@
 
 A Python/Jupyter workflow for downloading the **euro-area AAA-rated government bond zero-coupon spot curve** from the European Central Bank’s SDMX REST API.
 
-The notebook retrieves daily spot rates across the yield curve, calculates the unpublished **1-month and 2-month tenors** from the ECB’s daily Svensson parameters, validates the calculation against the published 3-month rate, and exports the complete term structure to CSV. If user needs an updated curve, he must re-run this notebook.
+The notebook retrieves daily spot rates across the yield curve, calculates the unpublished **1-month and 2-month tenors** from the ECB’s daily Svensson parameters, validates the calculation against the published 3-month rate, and exports the complete term structure to CSV. 
 
 **User needs to run this notebook only once**. The exported CSV is automatically saved in the working directory and is read by "[Shocks IRRBB.ipynb](../Shocks%20IRRBB.ipynb)", which computes IRRBB shock scenarios. 
+
+If user needs an updated curve, he must re-run this notebook and update the name of the output CSV in the "[Shocks IRRBB.ipynb](../Shocks%20IRRBB.ipynb)".
 
 ---
 
