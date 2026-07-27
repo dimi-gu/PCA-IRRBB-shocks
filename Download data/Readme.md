@@ -4,6 +4,10 @@ A Python/Jupyter workflow for downloading the **euro-area AAA-rated government b
 
 The notebook retrieves daily spot rates across the yield curve, calculates the unpublished **1-month and 2-month tenors** from the ECB’s daily Svensson parameters, validates the calculation against the published 3-month rate, and exports the complete term structure to CSV.
 
+**User needs to run this notebook only once**. The exported CSV is automatically saved in the working directory and is read by "Shocks IRRBB.ipynb". If user needs an updated curve, he must re-run this notebook.
+
+[PCA-IRRBB-shocks](Shocks%20IRRBB.ipynb)
+
 ---
 
 ## Main Features
