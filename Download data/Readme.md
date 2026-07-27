@@ -134,14 +134,6 @@ The output file is saved in the notebook's working directory.
 
 An internet connection is required.
 
-The notebook pauses briefly between requests:
-
-```python
-time.sleep(0.3)
-```
-
-This reduces the request rate sent to the ECB service.
-
 ---
 
 ## Output
