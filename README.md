@@ -1,12 +1,8 @@
 # PCA-Based IRRBB Shock Scenarios
 
-This repository contains a Python/Jupyter workflow for generating and analysing **interest-rate shock scenarios for IRRBB** using Principal Component Analysis (PCA).
+This repository contains a Python/Jupyter workflow for generating and analysing **interest-rate shock scenarios for IRRBB** ICAAP/ECAP frameworks using Principal Component Analysis (PCA).
 
 The notebook applies PCA to historical changes in the ECB euro-area AAA zero-coupon yield curve, identifies extreme historical shocks, compares them with the six regulatory Supervisory Outlier Test (SOT) scenarios, and demonstrates how PCA components can be combined to simulate additional curve shapes.
-
-## Notebook
-
-[Open the Shocks IRRBB notebook](Shocks%20IRRBB.ipynb)
 
 ## Input File
 
@@ -27,7 +23,7 @@ When using a newer dataset, place it in the same working directory and update `S
 ## Main Features
 
 - Imports and plots the ECB AAA zero-coupon spot curve
-- Calculates historical yield-curve changes over a selected period
+- Calculates historical yield-curve changes over a selected period differentiation period
 - Applies PCA to the term-structure shifts
 - Reports PCA scores, loadings, and explained variance
 - Reconstructs historical shocks using the retained components
@@ -67,20 +63,7 @@ The PCA is configured to retain three components:
 ```python
 N_COMPONENTS = 3
 ```
-
-## Installation
-
-Install the required packages:
-
-```bash
-pip install pandas numpy matplotlib scikit-learn jupyter
-```
-
-Then launch Jupyter:
-
-```bash
-jupyter notebook
-```
+The number of Principal Components is adjustable by the user.
 
 ## Usage
 
