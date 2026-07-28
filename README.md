@@ -1,4 +1,4 @@
-# PCA-Based IRRBB Shock Scenarios
+# PCA based IRRBB Shock Scenarios
 
 This repository contains a Python/Jupyter workflow for generating and analysing **interest-rate shock scenarios for IRRBB** ICAAP/ECAP frameworks using Principal Component Analysis (PCA).
 
